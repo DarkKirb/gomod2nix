@@ -84,7 +84,7 @@ let
               (name: value: (
                 ''
                   mkdir -p $(dirname vendor/${name})
-                  ln -s ${pwd + "/${value.path}"} vendor/${name}
+                  cp -rv ${pwd + "/${value.path}"} vendor/${name}
                 ''
               ))
               localReplaceAttrs);
@@ -121,7 +121,6 @@ let
 
           ${internal.symlink}
           ${concatStringsSep "\n" localReplaceCommands}
-
           mv vendor $out
         ''
       );

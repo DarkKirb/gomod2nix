@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
-    "io"
 )
 
 type Package struct {
@@ -83,7 +82,6 @@ func makeSymlinks(keys []string, sources Sources) {
 }
 
 func CopyAnything(src, dst string) error {
-    fmt.Println("CopyAnything:", src, dst)
     fileInfo, err := os.Stat(src)
     if err != nil {
         return err
@@ -102,7 +100,7 @@ func CopyAnything(src, dst string) error {
             return err
         }
     default:
-        if err := Copy(src, dst); err != nil {
+        if err := os.Symlink(src, dst); err != nil {
             return err
         }
     }
@@ -122,28 +120,6 @@ func CopyDirectory(scrDir, dest string) error {
             return err
         }
     }
-    return nil
-}
-
-func Copy(srcFile, dstFile string) error {
-    out, err := os.Create(dstFile)
-    if err != nil {
-        return err
-    }
-
-    defer out.Close()
-
-    in, err := os.Open(srcFile)
-    defer in.Close()
-    if err != nil {
-        return err
-    }
-
-    _, err = io.Copy(out, in)
-    if err != nil {
-        return err
-    }
-
     return nil
 }
 

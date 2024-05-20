@@ -11,7 +11,6 @@
 }:
 
 pkgs.mkShell {
-  NIX_PATH = "nixpkgs=${builtins.toString pkgs.path}";
   nativeBuildInputs = [
     pkgs.nixpkgs-fmt
     pkgs.golangci-lint
